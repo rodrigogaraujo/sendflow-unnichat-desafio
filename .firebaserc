@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "broadcast-uc-rodrigo-0926"
+  },
+  "targets": {
+    "broadcast-uc-rodrigo-0926": {
+      "hosting": {
+        "broadcast": [
+          "broadcast-uc-rodrigo-0926"
+        ]
+      }
+    }
+  }
+}

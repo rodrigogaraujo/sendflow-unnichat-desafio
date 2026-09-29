@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owns() {
+      return request.auth != null && resource.data.tenantId == request.auth.uid;
+    }
+    match /connections/{id} {
+      allow read: if owns();
+      allow write: if false;
+    }
+    match /contacts/{id} {
+      allow read: if owns();
+      allow write: if false;
+    }
+    match /messages/{id} {
+      allow read: if owns();
+      allow write: if false;
+    }
+  }
+}

@@ -92,7 +92,7 @@ Datas são armazenadas como `Timestamp` em UTC e exibidas no fuso do navegador. 
 
 ## Deploy
 
-Projeto: `broadcast-uc-rodrigo-0926`, conta proprietária `uaimedsocial@gmail.com`. Banco `(default)` e Cloud Functions em `us-central1` para manter os serviços próximos. O projeto anterior do usuário não é usado.
+Projeto: `broadcast-uc-rodrigo-0926`. Banco `(default)` e Cloud Functions em `us-central1` para manter os serviços próximos.
 
 1. Ative o plano Blaze, necessário para Cloud Functions e Cloud Scheduler.
 2. Ative Authentication com e-mail e senha e crie o Firestore em modo nativo.
@@ -108,4 +108,22 @@ As funções usam instâncias mínimas iguais a zero e limites de instâncias pa
 
 O teste não pede envio real, anexos, importação de contatos, times com vários membros ou métricas de entrega. O cliente assina os dados do próprio workspace e filtra localmente; uma versão para grandes volumes deve adicionar paginação e contadores agregados. App Check, limites por cliente e observabilidade adicional são extensões indicadas para exposição em escala.
 
-O repositório permanece privado. A submissão ao formulário da seleção deve ser feita pelo candidato após revisar a aplicação e conceder aos avaliadores o acesso necessário ao código.
+## Cobertura do desafio
+
+| Requisito                                       | Implementação                                                     |
+| ----------------------------------------------- | ----------------------------------------------------------------- |
+| Login e cadastro por cliente                    | Firebase Authentication com e-mail e senha                        |
+| CRUD de conexões e contatos                     | Formulários e operações autenticadas com validação no backend     |
+| Broadcast para um ou mais contatos              | Seleção múltipla, envio simulado imediato e agendamento           |
+| Histórico, filtros, edição e exclusão           | Listas em tempo real, filtros por conexão e status                |
+| Processamento independente do navegador         | Cloud Scheduler e Cloud Function a cada minuto                    |
+| Isolamento multi-tenant                         | Autorização no servidor e Firestore Security Rules por `tenantId` |
+| React, TypeScript, Vite, Material UI e Tailwind | Aplicação em `/web`, componentes funcionais e hooks               |
+| Cloud Functions e modelagem sem subcoleções     | Backend em `/functions` e três coleções de primeiro nível         |
+| Publicação funcional                            | Firebase Hosting, Authentication, Firestore e funções implantados |
+
+## Validação da publicação
+
+Em 29/09/2026, o fluxo foi validado no ambiente publicado com duas contas temporárias: cadastro, leitura e edição, bloqueio de acesso entre clientes, proibição de escrita direta, validação de destinatários por conexão, envio imediato, edição do histórico e exclusão em cascata. Uma mensagem agendada mudou automaticamente para enviada em uma execução periódica do Cloud Scheduler, e a alteração foi recebida pelo listener do Firestore. As contas e os dados de teste foram removidos ao final.
+
+A interface também foi verificada em desktop e celular. O CI executa a verificação de tipos, formatação, seis testes de integração e build. Os envios continuam sendo exclusivamente simulados.
